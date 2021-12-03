@@ -7,9 +7,10 @@ import java.util.List;
 import java.util.Set;
 
 public class Main {
-    public static int findTwoThatSumUpTo(List<Integer> inputNums, int sum) {
+    public static int findTwoThatSumUpTo(List<Integer> inputNums, int start, int end, int sum) {
         Set<Integer> seen = new HashSet<>();
-        for (int num: inputNums) {
+        for (int i = start; i <= end; i++) {
+            int num = inputNums.get(i);
             int diff = sum - num;
             if (seen.contains(diff)) return num * diff;
             seen.add(num);
@@ -17,7 +18,16 @@ public class Main {
         return -1;
     }
 
+    public static int findTwoThatSumUpTo(List<Integer> inputNums, int sum) {
+        return findTwoThatSumUpTo(inputNums, 0, inputNums.size() - 1, sum);
+    }
+
     public static int findThreeThatSumUpTo(List<Integer> inputNums, int sum) {
+        for (int i = 0; i < inputNums.size(); i++) {
+            int firstNum = inputNums.get(i);
+            int otherTwo = findTwoThatSumUpTo(inputNums, i + 1, inputNums.size() - 1, sum - firstNum);
+            if (otherTwo >= 0) return firstNum * otherTwo;
+        }
         return -1;
     }
 
