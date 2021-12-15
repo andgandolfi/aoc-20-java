@@ -9,13 +9,14 @@ public class Main {
         List<String> inputLines = Utils.getInputFileLines("day17.txt");
         assert inputLines != null;
 
-        Space space = new Space(inputLines);
-
         System.out.print("Day 17a: ");
-        space.evolveNSteps(6);
-        System.out.println(space.getPoints().size());
+        Space3D space3d = new Space3D(inputLines);
+        space3d.evolveNSteps(6);
+        System.out.println(space3d.getPoints().size());
 
         System.out.print("Day 17b: ");
-        System.out.println();
+        Space4D space4d = new Space4D(inputLines);
+        space4d.evolveNSteps(6);
+        System.out.println(space4d.getPoints().size());
     }
 }

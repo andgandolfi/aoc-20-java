@@ -5,23 +5,23 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Space {
-    private Set<Point> points;
-    private Point minSpaceLimit;
-    private Point maxSpaceLimit;
+public class Space3D {
+    private Set<Point3D> points;
+    private Point3D minSpaceLimit;
+    private Point3D maxSpaceLimit;
 
-    public Space(List<String> inputLines) {
+    public Space3D(List<String> inputLines) {
         points = new HashSet<>();
         for (int y = 0; y < inputLines.size(); ++y) {
             String line = inputLines.get(y);
             for (int x = 0; x < line.length(); ++x)
                 if (line.charAt(x) == '#')
-                    points.add(new Point(x, y, 0));
+                    points.add(new Point3D(x, y, 0));
         }
         configureSpaceLimits();
     }
 
-    public Space(Collection<Point> points) {
+    public Space3D(Collection<Point3D> points) {
         this.points = new HashSet<>(points);
         configureSpaceLimits();
     }
@@ -32,11 +32,11 @@ public class Space {
     }
 
     public void evolveOneStep() {
-        Set<Point> newPoints = new HashSet<>();
+        Set<Point3D> newPoints = new HashSet<>();
         for (int z = minSpaceLimit.getZ() - 1; z <= maxSpaceLimit.getZ() + 1; ++z)
             for (int y = minSpaceLimit.getY() - 1; y <= maxSpaceLimit.getY() + 1; ++y)
                 for (int x = minSpaceLimit.getX() - 1; x <= maxSpaceLimit.getX() + 1; ++x) {
-                    Point curr = new Point(x, y, z);
+                    Point3D curr = new Point3D(x, y, z);
                     int neighbors = getNeighborsCount(curr);
                     if (points.contains(curr)) {
                         if (neighbors == 2 || neighbors == 3)
@@ -50,21 +50,21 @@ public class Space {
         configureSpaceLimits();
     }
 
-    private int getNeighborsCount(Point around) {
+    private int getNeighborsCount(Point3D around) {
         int count = 0;
         for (int z = around.getZ() - 1; z <= around.getZ() + 1; ++z)
             for (int y = around.getY() - 1; y <= around.getY() + 1; ++y)
                 for (int x = around.getX() - 1; x <= around.getX() + 1; ++x) {
                     if (x == around.getX() && y == around.getY() && z == around.getZ()) continue;
-                    if (points.contains(new Point(x, y, z))) ++count;
+                    if (points.contains(new Point3D(x, y, z))) ++count;
                 }
         return count;
     }
 
     private void configureSpaceLimits() {
-        minSpaceLimit = new Point(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
-        maxSpaceLimit = new Point(Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE);
-        for (Point p : points) {
+        minSpaceLimit = new Point3D(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
+        maxSpaceLimit = new Point3D(Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE);
+        for (Point3D p : points) {
             minSpaceLimit.setX(Math.min(minSpaceLimit.getX(), p.getX()));
             minSpaceLimit.setY(Math.min(minSpaceLimit.getY(), p.getY()));
             minSpaceLimit.setZ(Math.min(minSpaceLimit.getZ(), p.getZ()));
@@ -74,7 +74,7 @@ public class Space {
         }
     }
 
-    public Set<Point> getPoints() {
+    public Set<Point3D> getPoints() {
         return points;
     }
 
