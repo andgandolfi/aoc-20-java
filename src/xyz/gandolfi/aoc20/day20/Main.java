@@ -9,10 +9,21 @@ public class Main {
         List<String> inputLines = Utils.getInputFileLines("day20.txt");
         assert inputLines != null;
 
+        Image img = new Image(inputLines);
+
         System.out.print("Day 20a: ");
-        System.out.println();
+        List<Tile> cornerTiles = img.findCornerTiles();
+        long multCornerIds = cornerTiles.stream()
+            .map(Tile::getTileId)
+            .map(id -> (long) id)
+            .reduce(1L, (i, j) -> i * j);
+        System.out.println(multCornerIds);
 
         System.out.print("Day 20b: ");
-        System.out.println();
+        Tile completeImg = img.getCompleteImageAsTile();
+        int imgPixelsCount = completeImg.getPixelsCount();
+        int monstersNum = SeaMonsterFinder.findMonstersInEveryPossibleRotationOrFlipOfImg(completeImg);
+        int pixelsPerMonster = SeaMonsterFinder.getSeaMonsterPatternPoints().size();
+        System.out.println(imgPixelsCount - (monstersNum * pixelsPerMonster));
     }
 }
