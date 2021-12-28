@@ -9,10 +9,18 @@ public class Main {
         List<String> inputLines = Utils.getInputFileLines("day24.txt");
         assert inputLines != null;
 
+        List<PathToTile> paths = inputLines.stream()
+            .map(PathToTile::new)
+            .toList();
+
+        Floor floor = new Floor();
+
         System.out.print("Day 24a: ");
-        System.out.println();
+        floor.flipManyTiles(paths.stream().map(PathToTile::getDestinationTile).toList());
+        System.out.println(floor.getBlackTilesCount());
 
         System.out.print("Day 24b: ");
-        System.out.println();
+        floor.evolveNDays(100);
+        System.out.println(floor.getBlackTilesCount());
     }
 }
