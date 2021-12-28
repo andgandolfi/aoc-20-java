@@ -9,10 +9,18 @@ public class Main {
         List<String> inputLines = Utils.getInputFileLines("day25.txt");
         assert inputLines != null;
 
+        int cardPubKey = Integer.parseInt(inputLines.get(0));
+        int doorPubKey = Integer.parseInt(inputLines.get(1));
+
         System.out.print("Day 25a: ");
-        System.out.println();
+        int cardLoopSize = LoopSizeFinder.findLoopSize(cardPubKey, 7);
+        int doorLoopSize = LoopSizeFinder.findLoopSize(doorPubKey, 7);
+        long cardEncryptionKey = LoopSizeFinder.findEncryptionKey(cardPubKey, doorLoopSize);
+        long doorEncryptionKey = LoopSizeFinder.findEncryptionKey(doorPubKey, cardLoopSize);
+        assert cardEncryptionKey == doorEncryptionKey;
+        System.out.println(cardEncryptionKey);
 
         System.out.print("Day 25b: ");
-        System.out.println();
+        System.out.println("No part B for this day");
     }
 }
